@@ -22,16 +22,19 @@ public class Main {
         Path path = Paths.get(Constants.FILE_NAME);
         File f = new File(Constants.FILE_NAME);
         Date lastDate;
-
         try {
-            if (f.exists()) {
-                lastDate = readLastDate(Constants.FILE_NAME);
+
+            while (!text.equals("exit")) {
+                if (f.exists()) {
+                    lastDate = readLastDate(Constants.FILE_NAME);
+                }
+                else {
+                    Files.createFile(path);
+                    lastDate = DateHelper.parseToDate(Constants.DATE_FORMAT, Constants.DATE_IN_PAST);
+                }
+                workLogger(text, lastDate);
+                text = scanner.nextLine();
             }
-            else {
-                Files.createFile(path);
-                lastDate = DateHelper.parseToDate(Constants.DATE_FORMAT, Constants.DATE_IN_PAST);
-            }
-            workLogger(text, lastDate);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
